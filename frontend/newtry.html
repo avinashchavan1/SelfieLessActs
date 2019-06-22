@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Categories</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<style>
+	html{
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+
+  body {
+    position: relative;
+  }
+	.form-section{
+		/*min-height: 35vh;*/
+		background-color: gray;
+	}
+
+	.add-cat {
+		position: relative;
+		/*top: 5vh;*/
+	}
+
+	.success-add,.success-del,.success-upload {
+		position: relative;
+		padding-left: 190px;
+		display: none;
+	}
+
+	.well {
+		max-width: 60vh;
+		margin-left: 50px;
+	}
+
+
+	</style>
+	</head>
+<body>
+	<div class="container-fluid form-section">
+		<center style="font-size: 25px;">Categories</center>
+		<div class="add-cat col-lg-5">
+			<a href="#cat_add_form" class="btn btn-info" data-toggle="collapse">Add a Category</a>
+		  	<form class="form-horizontal" id="cat_add_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="reg_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" onclick="register()">Submit</a>
+              		</div>
+            	</div>
+            	<div class="form-group success-add" id="success-add">
+              		<p>Operation Successful!</p>
+            	</div>
+		  	</form>
+		</div>
+
+		<div class="add-cat col-lg-5">
+			<a href="#cat_del_form" class="btn btn-info" data-toggle="collapse">Remove a Category</a>
+		  	<form class="form-horizontal" id="cat_del_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="del_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" onclick="del()">Submit</a>
+              		</div>
+            	</div>
+            	<div class="form-group success-del" id="success-del">
+              		<p>Operation Successful!</p>
+            	</div>
+		  	</form>
+		</div>
+	</div>
+
+
+
+	<div class="container">
+  <h2>Category Operations</h2>
+  <p>Operations allowed are listed</p>
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#list">List all Categories</a></li>
+    <li><a data-toggle="pill" href="#list-given-category">List acts for a given category</a></li>
+    <li><a data-toggle="pill" href="#list-no-given">List number of acts for a given category</a></li>
+    <li><a data-toggle="pill" href="#list-catnrange">List number of acts for a given range</a></li>
+    <li><a data-toggle="pill" href="#upload">Upload an act</a></li>
+  </ul>
+  
+  <div class="tab-content">
+    <div id="list" class="tab-pane fade in active">
+      <h3>List all Categories</h3>
+      <p>Here we list all Categories and the number of acts in each.</p>
+      <a type="submit" class="btn btn-default btn-lg" id="show" onclick="display()">Show</a>
+
+    </div>
+    <div id="list-given-category" class="tab-pane fade">
+      <h4>Enter a category</h4>
+		  	<form class="form-horizontal" id="list_given_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="list_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" id="subbut" onclick="list_given()">Submit</a>
+              		</div>
+            	</div>
+            	<!--<div class="form-group success-del" id="success-del">
+              		<p>Operation Successful!</p>
+            	</div>-->
+		  	</form>      
+    </div>
+    <div id="list-no-given" class="tab-pane fade">
+      <h4>Enter a category</h4>
+        <form class="form-horizontal" id="list_given_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="list_no_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" id="subnobut" onclick="list_no_given()">Submit</a>
+              		</div>
+            	</div>
+		</form> 
+    </div>
+    <div id="list-catnrange" class="tab-pane fade">
+      <h4>Enter a category</h4>
+        <form class="form-horizontal" id="list_given_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="list_range_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Start:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="start" placeholder="Enter start" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">End:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="end" placeholder="Enter end" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" id="subrangebut" onclick="list_range_given()">Submit</a>
+              		</div>
+            	</div>
+		</form>
+    </div>
+
+    <div id="upload" class="tab-pane fade">
+      <h4>Upload an Act</h4>
+		  	<form class="form-horizontal" id="list_given_form" action="">
+		  		<!--<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">ActId:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="actid" placeholder="Enter actId" name="category">
+	              </div>
+            	</div>-->
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Username:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="username" placeholder="Enter username" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Timestamp:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="timestamp" placeholder="Enter timestamp" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Caption:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="caption" placeholder="Enter caption" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="categoryName" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">ImgB64:</label>
+                  <div class="col-sm-7 forminp"></div>  
+                  <input class ="form-control" id="imgB64" type='file'>
+                  <p id="b64"></p>
+                  <img id="img" height="150">
+                  <!--
+	                <input type="text" class="form-control" id="imgB64" placeholder="Enter imgB64" name="category">
+                  --> </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" id="subbut" onclick="upload()">Submit</a>
+              		</div>
+            	</div>
+            	<div class="form-group success-del" id="success-upload">
+              		<p>Operation Successful!</p>
+            	</div>
+		  	</form>      
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+function readFile() {
+  
+  if (this.files && this.files[0]) {
+    
+    var FR= new FileReader();
+    
+    FR.addEventListener("load", function(e) {
+      document.getElementById("img").src       = e.target.result;
+      document.getElementById("imgB64").innerHTML = e.target.result;
+    }); 
+    
+    FR.readAsDataURL( this.files[0] );
+  }
+  
+}
+
+document.getElementById("form-control").addEventListener("change", readFile);
+</script>
+
+</body>
+

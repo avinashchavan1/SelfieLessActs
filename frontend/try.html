@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Categories</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<style>
+	html{
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
+
+  body {
+    position: relative;
+  }
+	.form-section{
+		/*min-height: 35vh;*/
+		background-color: gray;
+	}
+
+	.add-cat {
+		position: relative;
+		/*top: 5vh;*/
+	}
+
+	.success-add,.success-del,.success-upload {
+		position: relative;
+		padding-left: 190px;
+		display: none;
+	}
+
+	.well {
+		max-width: 60vh;
+		margin-left: 50px;
+	}
+
+
+	</style>
+	</head>
+<body>
+	<div class="container-fluid form-section">
+		<center style="font-size: 25px;">Categories</center>
+		<div class="add-cat col-lg-5">
+			<a href="#cat_add_form" class="btn btn-info" data-toggle="collapse">Add a Category</a>
+		  	<form class="form-horizontal" id="cat_add_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="reg_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" onclick="register()">Submit</a>
+              		</div>
+            	</div>
+            	<div class="form-group success-add" id="success-add">
+              		<p>Operation Successful!</p>
+            	</div>
+		  	</form>
+		</div>
+
+		<div class="add-cat col-lg-5">
+			<a href="#cat_del_form" class="btn btn-info" data-toggle="collapse">Remove a Category</a>
+		  	<form class="form-horizontal" id="cat_del_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="del_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" onclick="del()">Submit</a>
+              		</div>
+            	</div>
+            	<div class="form-group success-del" id="success-del">
+              		<p>Operation Successful!</p>
+            	</div>
+		  	</form>
+		</div>
+	</div>
+
+
+
+	<div class="container">
+  <h2>Category Operations</h2>
+  <p>Operations allowed are listed</p>
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#list">List all Categories</a></li>
+    <li><a data-toggle="pill" href="#list-given-category">List acts for a given category</a></li>
+    <li><a data-toggle="pill" href="#list-no-given">List number of acts for a given category</a></li>
+    <li><a data-toggle="pill" href="#list-catnrange">List number of acts for a given range</a></li>
+    <li><a data-toggle="pill" href="#upload">Upload an act</a></li>
+  </ul>
+  
+  <div class="tab-content">
+    <div id="list" class="tab-pane fade in active">
+      <h3>List all Categories</h3>
+      <p>Here we list all Categories and the number of acts in each.</p>
+      <a type="submit" class="btn btn-default btn-lg" id="show" onclick="display()">Show</a>
+
+    </div>
+    <div id="list-given-category" class="tab-pane fade">
+      <h4>Enter a category</h4>
+		  	<form class="form-horizontal" id="list_given_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="list_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" id="subbut" onclick="list_given()">Submit</a>
+              		</div>
+            	</div>
+            	<!--<div class="form-group success-del" id="success-del">
+              		<p>Operation Successful!</p>
+            	</div>-->
+		  	</form>      
+    </div>
+    <div id="list-no-given" class="tab-pane fade">
+      <h4>Enter a category</h4>
+        <form class="form-horizontal" id="list_given_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="list_no_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" id="subnobut" onclick="list_no_given()">Submit</a>
+              		</div>
+            	</div>
+		</form> 
+    </div>
+    <div id="list-catnrange" class="tab-pane fade">
+      <h4>Enter a category</h4>
+        <form class="form-horizontal" id="list_given_form" action="">
+		  		<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="list_range_catname" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Start:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="start" placeholder="Enter start" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">End:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="end" placeholder="Enter end" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" id="subrangebut" onclick="list_range_given()">Submit</a>
+              		</div>
+            	</div>
+		</form>
+    </div>
+
+    <div id="upload" class="tab-pane fade">
+      <h4>Upload an Act</h4>
+		  	<form class="form-horizontal" id="list_given_form" action="">
+		  		<!--<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">ActId:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="actid" placeholder="Enter actId" name="category">
+	              </div>
+            	</div>-->
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Username:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="username" placeholder="Enter username" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Timestamp:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="timestamp" placeholder="Enter timestamp" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Caption:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="caption" placeholder="Enter caption" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">Category Name:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="categoryName" placeholder="Enter category" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">
+	              <label class="control-label col-sm-4" for="username">ImgB64:</label>
+	              <div class="col-sm-7 forminp">
+	                <input type="text" class="form-control" id="imgB64" placeholder="Enter imgB64" name="category">
+	              </div>
+            	</div>
+            	<div class="form-group">        
+              		<div class="col-sm-offset-5 col-sm-5 forminp">
+                		<a class="btn btn-default btn-md" id="subbut" onclick="upload()">Submit</a>
+              		</div>
+            	</div>
+            	<div class="form-group success-del" id="success-upload">
+              		<p>Operation Successful!</p>
+            	</div>
+		  	</form>      
+    </div>
+  </div>
+</div>
+ <a href="index.html" class="link">previous page</a>
+
+
+<script type="text/javascript">
+
+
+	var link="http://18.235.236.14:5000";
+
+	function upload()
+	{
+
+		var url=link+"/api/v1/acts";
+		//var actId=document.getElementById("actid").value;
+		var actId=Math.floor(Math.random() * 10000000) + 1;
+		var username=document.getElementById("username").value;
+		var timestamp=document.getElementById("timestamp").value;
+		var caption=document.getElementById("caption").value;
+		var categoryName=document.getElementById("categoryName").value;
+		var imgB64=document.getElementById("imgB64").value;
+
+		dict={
+			"actId":parseInt(actId),
+			"username":username,
+			"timestamp":timestamp,
+			"caption":caption,
+			"category":categoryName,
+			"base64":imgB64
+		}
+
+
+		var xhttp=new XMLHttpRequest();
+
+		xhttp.onreadystatechange=function() {
+	    	if (this.readyState==4){
+
+	    		if(this.status==201)
+		        {	
+		        	console.log(this.status);
+		        	console.log("UPLOADED");
+		        	var success=document.getElementById('success-upload');
+		        	success.innerHTML="Successfully uploaded";
+		        	success.style.display="block";
+		        	success.style.position="relative";
+		        	success.style.left="40vh";
+		        }
+		        else
+		        {
+		        	console.log(this.status);
+		        	console.log("UPLOAD UNSUCCESSFUL");
+		        	var success=document.getElementById('success-upload');
+		        	success.innerHTML="Upload UnSuccessful";
+		        	success.style.display="block";
+		        	success.style.position="relative";
+		        	success.style.left="40vh";
+		        }
+	    	}
+	    };
+
+		xhttp.open("POST",url,true);
+	    xhttp.setRequestHeader("Content-Type","application/json");
+	    var data=JSON.stringify(dict);
+	    //console.log(data);
+	    xhttp.send(data);		
+
+
+	}
+function list_range_given() {
+
+		var catname=document.getElementById('list_range_catname').value;
+		var start=document.getElementById('start').value;
+		var end=document.getElementById('end').value;
+		var url=link+"/api/v1/categories/"+catname+"/acts?start="+start+"&end="+end;
+
+		var xhttp=new XMLHttpRequest();
+
+		xhttp.onreadystatechange=function() {
+	    	if (this.readyState==4){
+
+	    		if(this.status==200)
+		        {
+		        	console.log(this.status);
+		        	var json = JSON.parse(xhttp.responseText);
+		        	console.log(json);
+
+		        	var list=document.getElementById('list-catnrange');
+
+			        console.log(Object.keys(json).length);
+			        
+			        json.forEach(function (arrayItem) {
+
+			        	var well=document.createElement("div");
+						well.className="well well-lg col-sm-5";
+
+						well.innerHTML="<b>ActId : </b>"+arrayItem.actId+"<br/>";
+						well.innerHTML+="<b>Timestamp : </b>"+arrayItem.timestamp+"<br/>";
+						well.innerHTML+="<b>Upvotes : </b>"+arrayItem.upvotes+"<br/>";
+						well.innerHTML+="<b>Caption : </b>"+arrayItem.caption+"<br/>";
+						well.innerHTML+="<b>Username : </b>"+arrayItem.username+"<br/>";
+						well.innerHTML+="<b>ImgB64 : </b>"+arrayItem.imgB64+"<br/>";
+
+						list.appendChild(well);
+			        });			        
+
+					document.getElementById('subrangebut').className="btn btn-default btn-md disabled";
+
+
+		        }
+		        else if(this.status==204)
+		        {
+
+		        	console.log(this.status);
+
+		        	var list=document.getElementById('list-catnrange');
+
+			        var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="<b>No of items : </b>0";
+					list.appendChild(well);
+
+					document.getElementById('subrangebut').className="btn btn-default btn-md disabled";
+
+		        }
+		        else if(this.status==413)
+		        {
+
+		        	console.log(this.status);
+
+		        	var list=document.getElementById('list-catnrange');
+
+			        var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="Category has too many acts(>100)";
+					list.appendChild(well);
+
+					document.getElementById('subrangebut').className="btn btn-default btn-md disabled";
+
+		        }
+		        else if(this.status==405)
+		        {
+
+		        	console.log(this.status);
+
+		        	var list=document.getElementById('list-catnrange');
+
+			        var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="Error occured";
+					list.appendChild(well);
+
+					document.getElementById('subrangebut').className="btn btn-default btn-md disabled";
+
+		        }
+
+	    	}
+	    };
+
+
+		xhttp.open("GET",url,true);
+	    xhttp.setRequestHeader("Content-Type","application/json");
+	    var data=JSON.stringify({});
+	    //console.log(data);
+	    xhttp.send(data);
+
+	}
+
+
+	function up(actId) {
+
+		var url=link+"/api/v1/acts/upvote";
+		console.log(actId,typeof actId);
+
+		var xhttp=new XMLHttpRequest();
+
+		xhttp.onreadystatechange=function() {
+	    	if (this.readyState==4){
+
+	    		if(this.status==200)
+		        {	
+		        	console.log(this.status);
+		        	console.log("UPVOTED");	
+		        }
+	    	}
+	    };
+
+		xhttp.open("POST",url,true);
+	    xhttp.setRequestHeader("Content-Type","application/json");
+	    var data=JSON.stringify([parseInt(actId)]);
+	    //console.log(data);
+	    xhttp.send(data);		
+
+	}
+
+
+
+	function rem(actId) {
+
+		var url=link+"/api/v1/acts/"+actId;
+		console.log(actId,typeof actId);
+
+		var xhttp=new XMLHttpRequest();
+
+		xhttp.onreadystatechange=function() {
+	    	if (this.readyState==4){
+
+	    		if(this.status==200)
+		        {	
+		        	console.log(this.status);
+		        	console.log("REMOVED");	
+		        }
+	    	}
+	    };
+
+		xhttp.open("DELETE",url,true);
+	    xhttp.setRequestHeader("Content-Type","application/json");
+	    var data=JSON.stringify({});
+	    //console.log(data);
+	    xhttp.send(data);		
+
+	}
+
+
+
+
+	function list_given() {
+		var catname=document.getElementById('list_catname').value;
+		var url=link+"/api/v1/categories/"+catname+"/acts";
+
+		var xhttp=new XMLHttpRequest();
+	    xhttp.onreadystatechange=function() {
+	    	if (this.readyState==4){
+
+		        if(this.status==200)
+		        {
+		        	console.log(this.status);
+		        	var json = JSON.parse(xhttp.responseText);
+		        	console.log(json);
+
+		        	var list=document.getElementById('list-given-category');
+
+			        console.log(Object.keys(json).length);
+
+			        json.forEach(function (arrayItem) {
+
+			        	var well=document.createElement("div");
+						well.className="well well-lg col-sm-5";
+
+						well.innerHTML="<b>ActId : </b>"+arrayItem.actId+"<br/>";
+						well.innerHTML+="<b>Timestamp : </b>"+arrayItem.timestamp+"<br/>";
+						well.innerHTML+="<b>Upvotes : </b>"+arrayItem.upvotes+"<br/>";
+						well.innerHTML+="<b>Caption : </b>"+arrayItem.caption+"<br/>";
+						well.innerHTML+="<b>Username : </b>"+arrayItem.username+"<br/>";
+						well.innerHTML+="<b>ImgB64 : </b>"+arrayItem.imgB64+"<br/>";
+
+						var upvote=document.createElement("a");
+						upvote.className="btn btn-default btn-md";
+						upvote.id=arrayItem.actId;
+						upvote.onclick=function(event) {
+							console.log(event.target.id);
+							up(event.target.id);
+
+		        		}
+						upvote.innerHTML="Upvote";
+
+
+						var remove=document.createElement("a");
+						remove.className="btn btn-default btn-md";
+						remove.id=arrayItem.actId;
+						remove.onclick=function(event) {
+							console.log(event.target.id);
+							rem(event.target.id);
+		        		}
+						remove.innerHTML="Remove";
+
+						well.appendChild(upvote);
+						well.appendChild(remove);
+
+						list.appendChild(well);
+			        });
+			        document.getElementById('subbut').className="btn btn-default btn-md disabled";
+		    	}
+		    	else if(this.status==204)
+		    	{
+		    		console.log(this.status);
+		        	//var json = JSON.parse(xhttp.responseText);
+		        	//console.log(json);
+
+		    		var list=document.getElementById('list-given-category');
+
+		    		var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="Category has no acts";
+					list.appendChild(well);
+
+					document.getElementById('subbut').className="btn btn-default btn-md disabled";
+			        //document.getElementById('subbut').style.display="None";
+
+
+		    	}
+		    	else if(this.status==413)
+		    	{
+		    		console.log(this.status);
+		        	//var json = JSON.parse(xhttp.responseText);
+		        	//console.log(json);
+
+		    		var list=document.getElementById('list-given-category');
+
+		    		var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="Category has too many acts(>100)";
+					list.appendChild(well);
+
+					document.getElementById('subbut').className="btn btn-default btn-md disabled";
+			        //document.getElementById('subbut').style.display="None";
+
+
+		    	}
+		    	else if(this.status==413)
+		    	{
+		    		console.log(this.status);
+		        	//var json = JSON.parse(xhttp.responseText);
+		        	//console.log(json);
+
+		    		var list=document.getElementById('list-given-category');
+
+		    		var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="Error occured";
+					list.appendChild(well);
+
+					document.getElementById('subbut').className="btn btn-default btn-md disabled";
+			        //document.getElementById('subbut').style.display="None";
+
+
+		    	}
+
+		       
+
+			}
+
+		};
+		xhttp.open("GET",url,true);
+	    xhttp.setRequestHeader("Content-Type","application/json");
+	    var data=JSON.stringify({});
+	    //console.log(data);
+	    xhttp.send(data);
+
+	}
+function display()
+	{
+		var url=link+"/api/v1/categories";
+		var xhttp=new XMLHttpRequest();
+	    xhttp.onreadystatechange=function() {
+	    	if (this.readyState==4){
+
+		        if(this.status==200)
+		        {
+		        	console.log(this.status);
+		        	var json = JSON.parse(xhttp.responseText);
+		        	console.log(xhttp.responseText);
+
+		        	var list=document.getElementById('list');
+
+			        console.log(Object.keys(json).length);
+			        Object.keys(json).forEach(function(key) {
+					    console.log(key, json[key]);
+					    var well=document.createElement("div");
+					    well.className="well well-lg col-sm-5";
+					    well.textContent=key+"	    \t"+json[key];
+					    list.appendChild(well);
+
+					});
+			        document.getElementById('show').className="btn btn-default btn-lg disabled";
+			        document.getElementById('show').style.display="None";
+		    	}
+		    	else if(this.status==204)
+		    	{
+		    		var list=document.getElementById('list');
+
+		    		var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="Category has no acts";
+					list.appendChild(well);
+		    	
+		    		document.getElementById('show').className="btn btn-default btn-lg disabled";
+			        document.getElementById('show').style.display="None";
+
+		    	}
+		    	else if(this.status==405)
+		    	{
+		    		var list=document.getElementById('list');
+
+		    		var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="Error occured";
+					list.appendChild(well);
+		    	
+		    		document.getElementById('show').className="btn btn-default btn-lg disabled";
+			        document.getElementById('show').style.display="None";
+
+		    	}
+			}
+
+		}
+		xhttp.open("GET",url,true);
+	    xhttp.setRequestHeader("Content-Type","application/json");
+	    var data=JSON.stringify({});
+	    //console.log(data);
+	    xhttp.send(data);
+
+	}
+
+function register() {
+	
+		var catname=document.getElementById('reg_catname').value;
+	    var url=link+"/api/v1/categories";	
+
+	    var xhttp=new XMLHttpRequest();
+	    xhttp.onreadystatechange=function() {
+	    	if (this.readyState==4){
+		        console.log(this.status);
+		        var json = JSON.parse(xhttp.responseText);
+		        console.log(json);
+
+		        if (this.status==201)
+
+		        { 
+		          var success=document.getElementById('success-add');
+		          success.innerHTML="Operation Success";
+		          success.style.display="block";
+		        }else{
+			        var success=document.getElementById('success-add');
+			        success.innerHTML="Operation Failure";
+			        success.style.display="block";
+
+		    	}
+
+			}
+
+		};
+		xhttp.open("POST",url,true);
+	    xhttp.setRequestHeader("Content-Type","application/json");
+	    var data=JSON.stringify([catname]);
+	    console.log(data);
+	    xhttp.send(data);
+
+	}
+
+
+
+function del() {
+	
+		var catname=document.getElementById('del_catname').value;
+	    var url=link+"/api/v1/categories/"+catname;	
+
+	    var xhttp=new XMLHttpRequest();
+	    xhttp.onreadystatechange=function() {
+	    	if (this.readyState==4){
+		        console.log(this.status);
+		        var json = JSON.parse(xhttp.responseText);
+		        console.log(json);
+
+		        if (this.status==200)
+		        { 
+		          var success=document.getElementById('success-del');
+		          success.innerHTML="Operation Success";
+		          success.style.display="block";
+		        }else{
+			        var success=document.getElementById('success-del');
+			        success.innerHTML="Operation Failure";
+			        success.style.display="block";
+
+		    	}
+
+			}
+
+		};
+		xhttp.open("DELETE",url,true);
+	    xhttp.setRequestHeader("Content-Type","application/json");
+	    var data=JSON.stringify({});
+	    console.log(data);
+	    xhttp.send(data);
+
+	}
+
+
+
+function list_no_given() {
+		
+		var catname=document.getElementById('list_no_catname').value;
+		var url=link+"/api/v1/categories/"+catname+"/acts/size";
+
+		var xhttp=new XMLHttpRequest();
+
+		xhttp.onreadystatechange=function() {
+	    	if (this.readyState==4){
+
+	    		if(this.status==200)
+		        {
+		        	console.log(this.status);
+		        	var json = JSON.parse(xhttp.responseText);
+		        	console.log(json);
+
+		        	var list=document.getElementById('list-no-given');
+
+			        console.log(Object.keys(json).length);
+			        console.log(json[0]);
+
+			        var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="<b>No of items : </b>"+json[0];
+					list.appendChild(well);
+
+					document.getElementById('subnobut').className="btn btn-default btn-md disabled";
+
+
+		        }
+		    	else if(this.status==204)
+		    	{
+
+		    		console.log(this.status);
+		        	//var json = JSON.parse(xhttp.responseText);
+		        	//console.log(json);
+
+		        	var list=document.getElementById('list-no-given');
+
+			        var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="<b>No of items : </b>0";
+					list.appendChild(well);
+
+					document.getElementById('subnobut').className="btn btn-default btn-md disabled";
+
+
+		    	}
+		    	else if(this.status==405)
+		        {
+
+		        	console.log(this.status);
+
+		        	var list=document.getElementById('list-no-given');
+
+			        var well=document.createElement("div");
+					well.className="well well-lg col-sm-5";
+					well.innerHTML="Error occured";
+					list.appendChild(well);
+
+					document.getElementById('subnobut').className="btn btn-default btn-md disabled";
+
+		        }
+
+	    	}
+	    };
+
+		xhttp.open("GET",url,true);
+	    xhttp.setRequestHeader("Content-Type","application/json");
+	    var data=JSON.stringify({});
+	    //console.log(data);
+	    xhttp.send(data);
+
+	}
+
+</script>
+
+</body>
+
+
+
